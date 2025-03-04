@@ -1,0 +1,91 @@
+# What is Docker Compose?
+# Docker Compose is a tool that simplifies the management of multi-container
+# applications using a single configuration file (in YAML format).
+# Instead of running multiple Docker commands to create networks, start containers,
+#  and link them together, you can define your entire application stack in
+#  one file (docker-compose.yml) and manage it with ease.
+
+# Why Use Docker Compose?
+# Simplified Multi-Container Management:
+# If your application relies on multiple services, such as a
+# Node.js app and a MongoDB database, you can manage and run them together with
+# a single command.
+
+# Portability:
+# Once your docker-compose.yml file is set up, anyone can recreate the exact same
+#  environment by running a single command.
+
+# Streamlined Networking and Volume Management:
+# Docker Compose automatically handles networks and shared volumes between containers.
+
+# How to Use Docker Compose?
+# 1. Install Docker Compose
+# Docker Compose is included with Docker Desktop for Windows and macOS.
+# If you are using Linux, you might
+# need to install it separately.
+#
+# 2. Create a docker-compose.yml File
+# Create a docker-compose.yml file in your project directory.
+# Below is an example for running a Node.js app with MongoDB:
+
+# version: "3.8" => you can go tho compose version and choose what you need to be suitable to my docker version
+# services:
+# app:
+# image: node:16
+# container_name: node-app
+# build: =>to go to docker file to create and build the container
+# context: .
+# dockerfile: Dockerfile
+# ports:
+# - "4000:4000"
+# volumes:
+# - .:/app
+# working_dir: /app
+# command: "npm start"
+# depends_on:
+# - db
+# db:
+# image: mongo:5
+# container_name: mongo-db
+# ports:
+# - "27017:27017"
+# volumes:
+# - mongo-data:/data/db
+#
+# volumes:
+# mongo-data:
+#
+
+# 3. Create a Dockerfile for Your App
+
+# 4. Build and Run the Application
+
+# to start the containers defined in your docker-compose.yml file, run:
+# docker-compose up
+#
+# To run it in detached mode (in the background), use:
+# docker-compose up -d
+#
+# To stop the containers, run:
+# docker-compose down
+
+# Key Benefits
+# Reproducibility: Easily share your docker-compose.yml file with your team.
+# Ease of Scaling: Add replicas for services to scale horizontally.
+# Centralized Configuration: All settings (volumes, networks, dependencies) are in one place.
+
+version: "3"
+services:
+    node-app:
+      container_name: express-node-app-container
+      build: .
+      volumes: 
+        - ./src:/app/src:ro
+      ports: 
+        - "4000:4000"
+      
+# تخيل محتاجين نعمل بيئتين للديفلوبمينت و البروداكشن
+# الطريقة المفضلة اننا نعمل فايل لكل واحدة منهم
+# ليه لجأت لكدا علشان انا عندي كل بيئة ليها ممكن خصتئص مختلفة
+# زي مثلا ال volumes 
+# علشان وهوو في البروداكشن محدش بيعدل كود وكدا  

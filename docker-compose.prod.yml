@@ -1,0 +1,29 @@
+version: "3"
+services:
+  node-app:
+    container_name: express-node-app-container
+    build: .
+    # volumes:
+    # - ./src:/app/src:ro
+    # no need for this in prod
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV = production
+    env_file:
+      - ./.env
+    command: npm start
+# then you can run
+# docker-compose -f docker-compose.prod.yml up -d
+# to stop
+# docker-compose -f docker-compose.prod.yml down
+
+# take in your considration
+# in prod environment i don't need to run
+# all the dependencies only need to install
+# the prodDependcies only
+# علي فكرة ممكن اعمل دوكر فايل لكل بيئة وريح نفسي
+# أول مشكلة هحلها بتاعت تحميل نوود مون اني استدم الكوماند اللي فوق دا
+
+# وحل مشكلة ال تحميلات اني اعمل فحص لنوع البيئة الحالية سواء برو او ديفلوب 
+# باستخدام ال arguments

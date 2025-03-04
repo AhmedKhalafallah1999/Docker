@@ -1,0 +1,18 @@
+# this is to handle the docker files repetative codes
+# between dev and prod
+version: "3"
+services:
+  node-app:
+    container_name: express-node-app-container
+    build: .
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./.env
+
+      # this used with the other in the same line of code
+      # and removing these from their files
+      # then you can run
+      # docker-compose -f docker-compose.yml docker-compose.prod.yml up -d
+      # docker-compose -f docker-compose.yml docker-compose.dev.yml up -d
+      # also i need in every environment to download it's only dependcies or dev or prod only

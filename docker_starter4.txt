@@ -1,0 +1,150 @@
+......................................................................
+#step1
+The first thing i create a docker file
+Which i write the instruction which is my app need to run
+Like dependcies
+So, I will start with 
+/*  
+From baseImage
+*/
+for ex: for node app, i need a node installed as a dependcies
+so,
+/* 
+From node
+*/
+the previous will install the node image for that machine to run the app on it,
+but will fetch the latest version if you need a specific version,
+may be add a version after the node like that:
+/*
+From node:12
+*/
+
+so here my base image is node for ex., to install into my container...
+...............................................................................
+#step3 
+after that, after the installation node, 
+you need to install the packages the app need to run so,
+we will copy the dependcies from package.json file to the contsiner,
+which the app will run on it,
+
+/*
+Copy package.json .
+*/
+
+the dot here means that the packages file put into the container...
+................................................................................
+#step2
+to organise my fiels and folders into the container...
+we will make a workdirectory to add the package.json into it...
+to be orgnised, so
+
+/*
+WORKDIR /app
+*/
+so, we can use the name folder /app instead of the dot destination in step 3
+Take in your considration that /app here means .
+...............................................................................
+#step4
+After that we need to install the dependcies from the package.json
+so, we need to use
+
+/*
+RUN npm install
+*/
+may be ask for the npm, does it found ? Yes, we install the baseimage node before
+Then the node modules will be added to the /app folder with the other files.
+...............................................................................
+#step5
+After thet, normally we need to run the app,
+but first we need to move/copy the app files and src to the container,
+
+/*
+COPY index.js .
+*/
+if it contains only an index.js only, but if it contains alot of files
+
+/*
+COPY . .
+*/
+
+after that we need to run the app
+
+/*
+CMD ["npm","start"]
+*/
+..............................................................................
+#step6
+If you need to communicatw with the app conatiner,
+you must add an execute command to specify a port!
+so, before running the app
+
+/* 
+EXPOSE 4000
+*/
+just for documentatinos.
+...............................................................................
+the all code?
+From node:12
+WORKDIR /app
+Copy package.json .
+RUN npm install
+COPY index.js .
+EXPOSE 4000
+CMD ["npm","start"]
+................................................................................
+after that we can build this docker file to create an image,
+to use the image after that to build the container in the future
+in terminal:
+/*
+docker build ./Dockerfile
+*/
+or 
+/*
+docker build .
+*/
+he will understand that the dot means dockerfile or any file called dockerfile to 
+build an image
+
+note: To give the image which is generated a name we can :
+/*
+docker build -t my-express-app .
+*/
+..................................................................................
+after that, to show the generated images we can,
+/*
+docker image ls
+*/
+.................................................................................
+to run the container from the generated image?!
+/*
+docker run my-express-app
+*/
+or if you need to add a name to it?!
+/*
+docker run --name express-node-app-container express-node-app
+*/
+.................................................................................
+note:
+if you need to add a flag -d,
+to not show the docker terminal on the current terminal, you can
+add it in detached mode...
+/*
+docker run --name express-node-app-container -d express-node-app
+*/
+.................................................................................
+to show the all containers,
+/*
+docker ps
+*/
+.................................................................................
+to delete a current container
+/*
+docker rm express-node-app-container
+*/
+.................................................................................
+You need to make a port forward to run the container,
+you need to forward the port of your machine to the port of the container
+beacuse the container is isolated machine so you must make a forward
+/*
+docker run --name express-node-app-container -d 4000:4000 express-node-app
+*/

@@ -1,0 +1,18 @@
+version: "3"
+services:
+  node-app:
+    container_name: express-node-app-container
+    build: .
+    volumes:
+      - ./src:/app/src:ro
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV = development
+    env_file:
+      - ./.env
+    command: npm run start-dev
+# then you can run
+# docker-compose -f docker-compose.dev.yml up -d
+# to stop
+# docker-compose -f docker-compose.dev.yml down
