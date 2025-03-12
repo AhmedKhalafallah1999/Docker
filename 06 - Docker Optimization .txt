@@ -1,0 +1,47 @@
+1- if you need after running the docker container, to use...
+bash terminal to run or continuing running other commands you can use?!
+ "docker exec -it (the name of the container you need to run the terminal on it) bash
+
+note: may be you asked about how you can know the name of the container by running 
+"docker ps"
+ note: if you need to know the current working directory 
+ "cwd"
+
+
+ 2- do you must copy all the files to the docker container folder?!
+ no, files like node modules, package-lock.json, docker files you don't need 
+ to add them into the container (How do you do that)...
+ 
+ => answer 
+ you need to make the same as git, file called .dockerignore
+ and but the name of the files into it like that...
+ /node_modules
+Dockerfile
+.env
+docker-compose*
+
+note: may be after running the cmd (ls) you see the files like nodemodules and package-lock.json
+ => answer : yes, this is normal as there is a step in the docker file 
+ to run npm install 
+
+ 3- why did we split the package.json copy cmd ?!
+ rather than that:
+
+ FROM node 
+ WORKDIR /app
+COPY package.json .
+RUN npm install
+copy . .
+EXPOSE 4000
+CMD ["npm","start"]
+
+make like that: 
+
+FROM node 
+ WORKDIR /app
+copy . .
+RUN npm install
+EXPOSE 4000
+CMD ["npm","start"]
+ answer : => this mean at every change in code will follow by changing and running a new npm run install
+ 

@@ -1,0 +1,30 @@
+* 1=> this lesson shows how your server restart auto at every change in the code
+like nodemon instead of running the img and container at every change
+ so at first step you need to change the CMD to use the nodemon script?!
+
+ from 
+ CMD ["npm","start"]
+ to
+ CMD [ "npm","run","start-dev" ]
+ 
+but at every change in code you must run a new img and a new container
+so we need to make some thing for this problem...
+
+* 2=> to show/ see the logs of the current running container in the terminalss
+ answer => docker logs (the running container name)
+ but this after running a bash on the container... 
+
+ note: if you need to know the code inside any file just use?
+ cat (file name)
+
+* 3=> so, the answer of today lesson is (Hot Reload)
+which is mean at every change in code, auto lisening into container 
+so, i will sunc the folder of my project into the folder in the container
+you just need to use this new cmd:
+
+docker run --name (name of the new generated container) -v (the full path of the current dir you need to sync):(/app = the name of the container's folder)
+-d -p 4000:4000 (the image name)
+
+note: this is a problem because every change in the continer like
+removing a file from into will reflect to my project so we will use another trick 
+in the next video...
