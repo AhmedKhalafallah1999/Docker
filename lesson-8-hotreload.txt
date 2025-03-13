@@ -1,0 +1,51 @@
+In lesson 7, when we made a sync with the folder container and the project folder files,
+a problem has been established due to like deleting a file in container
+will affect on my current files also, but this may be lead to a concequence in
+security...
+
+the way which we used called two way binding (binding mount)
+-v + copy full path not relative path + the other destination i need to sync with it 
+  بمعني المسار الاول اللي هو الكود بتاعي والتاني اللي هو الفولدر اللي محتاج اعمل معاه سينك ويسمع كل التغييرات اللي هو ال 
+   /app
+
+today lesson we will talk about the other way called one way binding...
+
+=> 
+
+docker run --name express-node-app-container -v D:\My_Github_Projects\docker/src:/app/src:ro -d -p 4000:4000 express-node-app
+
+=> which is mean make the container folder with sycn with thr project folder as a read only
+that mean make it not affect or make any change to thre other folder...
+
+to test the prevvious cmd => turn on te container and run or make any file 
+this will not work because this is read only not able to make any change
+
+note => you can remove the full path and use this cmd instead?!
+
+docker run --name express-node-app-container -v %cd%:ro -d -p 4000:4000 express-node-app
+
+which is mean print the working directory for windows
+
+*** another problem will found
+due to we made a one binding sunc
+when we remove the node modules file from the working directory
+this will lead to remove it also from the container due to
+the process of binding which we made so, we will use another way
+called anonymous binding...
+
+here we will mention a new term for tolding them, you must not make any
+change in the folder which we mention in the container even if make a change 
+in the working directiry ......
+ => -v /app/nodemodules =>
+docker run --name express-node-app-container -v %cd%:/app:ro -v /app/nodemodules -d -p 4000:4000 express-node-app
+
+=> the optimum solution to binding the files which always have a change, like the code 
+it self but for the other files like nodemodules let as a default, so
+thing that the code files into (src) folder so,
+
+docker run --name express-node-app-container -v %cd%/src:/app/src:ro -d -p 4000:4000 express-node-app
+
+that's mean that we binding only the src fode with src folder in the container with also
+a read only to prevent changes in code via the container side;
+
+Note: don't forget to change the script with the new folder which we creadted...
