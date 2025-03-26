@@ -1,0 +1,74 @@
+=> it's a utility
+it's version differ from the docker itself, comes with docker
+
+docker --version
+docker-compose --version
+
+=> used to manage the containers together, 
+talk with other container, services and so on,
+used to manage the container in easy way...
+
+rather than writing the docker cmd to run a container like that::
+docker run --name (name of the geneated cont. you want) -v %cd%:/src:/app/src:ro -d -p 4000:4000 my-node-app
+
+you will need to create a nother file for that::
+=> called (docker-compose.ymel)
+you can open it =<<<<<<<<<<<<<< 
+ 1- you need to put/ identify the docker compose version,
+ you can pick the latest from it's website
+version: "3"
+ 
+ 2- you need to identify the services of your app like,
+ DB, node, php ... and so on
+
+ services:
+  node-app:
+    container_name: express-node-app-container 
+
+3- now like in the long terminal you just need to identify
+the port due to the container env is islated so you need 
+to forward to another port, and volume for binding 
+here, you can use relative path normally,,,...
+services:
+  node-app:
+    container_name: express-node-app-container 
+    volums: 
+      - ./src:/app/src:ro
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./.env
+
+ 4- lastly you need to give him the build cmd to search 
+ docker file to execute to install the package needed for this services,
+ then create a volume, and make mapping for ports...
+
+ version: "3"
+services:
+  node-app:
+    container_name: express-node-app-container
+    build: .
+    volums: 
+      - ./src:/app/src:ro
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./.env
+    build: .
+
+
+lastly, the adv:::
+rather than writing the long cmd to create the img and then the container,
+you just need to run this only compose file,,, to execute
+
+ => docker-compose up -d 
+
+ to read the the instruction found in this file, like,,,
+ build the docker file which is indicate ffor the dot 
+ then, give him a name 
+ then, mapping to the port 4000 
+then, make a binding for the fils change (hot reload)
+
+
+-d => for detached mode, don't open the docker the terminal 
+
