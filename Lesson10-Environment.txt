@@ -33,3 +33,53 @@ environment:
 
 env_file:
       - ./.env
+
+
+**************************************************************
+
+=> if i want to manage my project in more than environment ?!
+Production and Development
+
+- Way 1 - you can create a separate file for each environment !
+- docker-compose.dev.yml
+- docker-compose.prod.yml
+
+and more file for referance ! 
+- docker-compose-ref.yml
+
+--------------------------
+The technique::
+Why we made separate file ? 
+because in dev env and prod env, there are more than changes in the way of handling
+like port diff in each one, in prod we don't need for the hot reload/ volume and so on..
+
+for more code understanding and implementation, you can look at
+- docker-compose.dev.yml file and ...
+- docker-compose.prod.yml file
+--------------------------
+When we run the docker-compose up -d 
+an error found as we have more than docker-compose file, so we need
+to clarify which one of them we need to execute!! so...
+
+docker-compose -f docker-compose.dev.yml up -d
+docker-compose -f docker-compose.dev.yml down
+
+and so on for the producion...
+
+------------------------
+may be the two file are too common, differ only in some attributes 
+so we can make an internediate file called docker-compose.yml for ex:
+contain the common cmd
+
+after that, we can run the cmd by adding the intermediate file first, Then
+the needed env file,,, like that?
+
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d 
+
+to run the img and then run the contsienr auto...
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+
+rather than dublicate the code in each of them....
+
+-----------------------------------
+finally you just need to add dockerfile* insite .gitignore
