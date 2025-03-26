@@ -1,0 +1,35 @@
+\*\* Environment variables
+
+- if we work on only docker, not docker compose we can use it
+  inside docker file like this?
+
+ENV port = 3000
+
+- if i want later use this var in the docker file by this way?
+
+$port
+
+---- 2nd way by adding the env var in the cmd terminal like that?
+you can see by,
+docker run --help => to see other flags
+
+--env PORT=3000 NODE_ENV=development
+=> you can make a separate file with all env vars
+and then inside the cmd terminal just add the file,,
+
+--env-file ./.env
+
+./.env => is the file path
+
+---
+
+=> if we use a docker compose not docker ???
+we can make this by adding a new sectino in docker-compose.yml
+
+environment:
+      - NODE_ENV = development
+
+=> or by adding the path of the env vars file into like previous?!
+
+env_file:
+      - ./.env
